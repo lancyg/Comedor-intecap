@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cafetería Escuela Sabores & Aprendizaje</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #d3efff;
+      color: #1c223e;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+      background: linear-gradient(to right, #56adff, #cdefff);
+      -ms-flex-item-align: end;
+    }
+
+    header h1 {
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    select, input[type="text"], button {
+      font-size: 1rem;
+      padding: 0.6rem 1rem;
+      margin: 1rem 0.5rem;
+      border-radius: 30px;
+      border: 1px solid #647ec4;
+    }
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.imagen-equilibrada {
+  width: 460px;
+  height: 340px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.imagen-equilibrada:hover {
+  transform: scale(1.10);
+}
+
+    .menu-cafeteria {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .tarjeta-menu {
+      background: #fff;
+      border: 1px solid #4662a0;
+      border-radius: 10px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .tarjeta-menu:hover {
+      transform: scale(1.03);
+    }
+
+    .precio {
+      color: #214f7b;
+      font-weight: bold;
+    }
+
+    .detalle-menu {
+      display: none;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #1e2e5a;
+    }
+
+    .agregar {
+      background: #647ec4;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      margin-top: 0.8rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .agregar.animar {
+      animation: enviarCarrito 0.6s ease;
+    }
+
+    @keyframes enviarCarrito {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2) rotate(-5deg); }
+      100% { transform: scale(1); }
+    }
+
+    #notificacion {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1c2e3e;
+      color: #fff;
+      padding: 0.7rem 1rem;
+      border-radius: 30px;
+      font-weight: bold;
+      display: none;
+      z-index: 999;
+    }
+
+    .contacto, .pago {
+      padding: 1rem 2rem;
+    }
+
+    .contacto form, .pago select {
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contacto input, .contacto textarea {
+      margin-bottom: 1rem;
+      padding: 0.6rem;
+      border: 1px solid #789ce0;
+      border-radius: 10px;
+    }
+
+    .contacto button {
+      background: #647ac4;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>☕ Cafeteria </h1>
+    <p>Una cafetería que nutre cuerpo, mente y comunidad</p>
+    <img src="Logotipo_de_el_INTECAP.png" alt="Logo Cafetería" style="width: 150px; height: auto; border-radius: 10px; right: 2px; float: right;">
+  </header>
+
+  <section class="filtros" style="text-align:center;">
+    <select onchange="filtrarPorCategoria(this.value)">
+      <option value="">🍽 Ver todo</option>
+      <option value="lunes">🌱 Menú del Lunes</option>
+      <option value="martes">🔧 Menú del Martes</option>
+      <option value="miercoles">🎯 Menú del Miercoles</option>
+      <option value="jueves">🔥 Menú del Jueves</option>
+      <option value="viernes">🌟 Menú del Viernes</option>
+      <option value="sabado">🎉 Menú del Sabado</option>
+      <option value="domigno">☁️ Menú del Domingo</option>
+    </select>
+    <input type="text" id="busqueda" placeholder="🔍 Buscar café, postre o clase...">
+  </section>
+
+  <section class="menu-cafeteria">
+    <div class="tarjeta-menu" onclick="desplegarDetalle(this)" data-nombre="menu del Lunes" data-precio="20" data-detalle="Pescado al vapor con arroz y especias." data-categoria="lunes">
+      <h3>Ensalada con Pescado y Arroz</h3>
+      <p>Bebida de Horchata</p>
+      <p>4 tortillas de maiz</p>
+      <img src="OIP.webp" alt="Pescado con Arroz" class="imagen-equilibrada"  />
+      <p class="precio">Q20</p>
+      <div class="detalle-menu"></div>
+      <button class="agregar" onclick="agregarAlCarrito(event, this)">Agregar al carrito</button>
+    </div>
+
+    <div class="tarjeta-menu" onclick="desplegarDetalle(this)" data-nombre="Menu del Martes" data-precio="25" data-detalle="pollo asado acompañado de rosa hamaica." data-categoria="martes">
+      <h3>pollo asado </h3>
+      <p>acompañado de rosa hamaica.</p>
+      <br>
+      <br>
+      <br>
+<img src="Pollo_Asado_con_Papas_al_Aire_y_Pan_de_Ajo_Casero_1024x.webp" alt="Pollo Asado" class="imagen-equilibrada" />
+      <p class="precio">Q25</p>
+      <div class="detalle-menu"></div>
+      <button class="agregar" onclick="agregarAlCarrito(event, this)">Agregar al carrito</button>
+    </div>
+
+    <div class="tarjeta-menu" onclick="desplegarDetalle(this)" data-nombre="Menu del Miercoles" data-precio="15" data-detalle="Ensalada." data-categoria="miercoles">
+      <h3>Ensalada Francesa </h3>
+      <p>acompañada con aderezo</p>
+      <br>
+      <br>
+      <br>
+<img src="recipes_orchard_fresh_tuna_salad.jpg" alt="Ensalada Francesa" class="imagen-equilibrada" />
+      <p class="precio">Q15</p>
+      <div class="detalle-menu"></div>
+      <button class="agregar" onclick="agregarAlCarrito(event, this)">Agregar al carrito</button>
+    </div>
+  </section>
+
+  <div class="pago">
+    <h3>💳 Selecciona método de pago</h3>
+    <select>
+        <option value="efectivo">💵 Efectivo</option>
+    
+      <option value="tarjeta" target="_blank"></a>>💳 Tarjeta</option>
+    
+      <option value="transferencia">📱 Transferencia</option>
+      
+     
+    </select>
+  </div>
+
+  <div class="contacto">
+    <h3>📞 Contáctanos</h3>
+    <form>
+      <input type="text" placeholder="Tu nombre" required>
+      <input type="email" placeholder="Tu correo electrónico" required>
+      <textarea placeholder="Escríbenos un mensaje..." required></textarea>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </div>
+
+  <div id="notificacion"></div>
+
+  <script>
+    function desplegarDetalle(tarjeta) {
+      const detalleDiv = tarjeta.querySelector(".detalle-menu");
+      const detalle = tarjeta.getAttribute("data-detalle");
+      const precio = tarjeta.getAttribute("data-precio");
+      detalleDiv.innerHTML = `<strong>Descripción:</strong> ${detalle}<br><strong>Precio:</strong> Q${precio}`;
+      detalleDiv.style.display = "block";
+    }
+
+    function agregarAlCarrito(event, boton) {
+      event.stopPropagation();
+      boton.classList.add("animar");
+      setTimeout(() => boton.classList.remove("animar"), 600);
+      mostrarNotificacion("🛒 Añadido al carrito: " + boton.closest(".tarjeta-menu").getAttribute("data-nombre"));
+    }
+
+    function mostrarNotificacion(texto) {
+      const n = document.getElementById("notificacion");
+      n.textContent = texto;
+      n.style.display = "block";
+      setTimeout(() => {
+        n.style.display = "none";
+      }, 2200);
+    }
+
+    function filtrarPorCategoria(categoria) {
+      document.querySelectorAll(".tarjeta-menu").forEach(card => {
+        const tipo = card.getAttribute("data-categoria");
+        card.style.display = (!categoria || tipo === categoria) ? "block" : "none";
+      });
+    }
+
+    document.getElementById("busqueda").addEventListener("input", function () {
+      const texto = this.value.toLowerCase();
+      document.querySelectorAll(".tarjeta-menu").forEach(card => {
+        const nombre = card.getAttribute("data-nombre").toLowerCase();
+        card.style.display = nombre.includes(texto) ? "block" : "none";
+      });
+    });
+  </script>
+
+</body>
+</html>
